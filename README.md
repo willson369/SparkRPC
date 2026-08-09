@@ -28,7 +28,7 @@ mvn -q exec:java -Dexec.mainClass=com.sparkrpc.example.ExampleClient
 
 ## Showcase Site
 
-- Live: https://website-sandy-pi-98.vercel.app
+- Live: https://sparkrpc.vercel.app
 - Source: `website/`
 
 ```bash
