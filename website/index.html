@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SparkRPC · 轻量学习向 RPC 框架</title>
+  <meta name="description" content="基于 Java 17 + Netty 4 的自定义二进制协议 RPC，支持粘包半包处理、SPI 序列化与同步 Future 调用。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="top">
+    <a class="back" href="#works">← 全部作品</a>
+    <span class="tag">基础设施轮子</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Netty · Custom Protocol · SPI</p>
+        <h1>SparkRPC</h1>
+        <p class="lead">为学习与小规模内部通信打造的高性能 RPC。自定义二进制协议、编解码与业务解耦，掌握网络编程核心路径。</p>
+        <div class="cta">
+          <a class="btn primary" id="open-project" href="https://github.com/willson369/SparkRPC" target="_blank" rel="noopener">打开项目</a>
+          <a class="btn ghost" href="mailto:hello@example.com">邮件沟通</a>
+        </div>
+      </div>
+      <aside class="hero-visual" aria-hidden="true">
+        <div class="orb orb-a"></div>
+        <div class="orb orb-b"></div>
+        <span class="year">2025</span>
+      </aside>
+    </section>
+
+    <section class="panel">
+      <h2>技术栈</h2>
+      <div class="pills">
+        <span>Java 17</span>
+        <span>Netty 4</span>
+        <span>Custom Binary Protocol</span>
+        <span>JSON / SPI</span>
+        <span>JUnit 5</span>
+        <span>ZooKeeper（规划）</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>亮点</h2>
+      <ul class="highlights">
+        <li>
+          <span class="dot"></span>
+          <div>
+            <h3>自定义协议帧</h3>
+            <p>Length Field + Magic 校验，安全处理 TCP 粘包 / 半包。</p>
+          </div>
+        </li>
+        <li>
+          <span class="dot"></span>
+          <div>
+            <h3>同步 Future 调用</h3>
+            <p>JDK 动态代理封装 RequestId 与超时，MVP 已支持同步等待。</p>
+          </div>
+        </li>
+        <li>
+          <span class="dot"></span>
+          <div>
+            <h3>连接保活</h3>
+            <p>心跳与空闲检测，异常连接自动摘除，连接可复用。</p>
+          </div>
+        </li>
+        <li>
+          <span class="dot"></span>
+          <div>
+            <h3>SPI 可插拔</h3>
+            <p>序列化可扩展；注册中心适配预留（直连 MVP → ZK）。</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>架构草图 · RPC 调用路径</h2>
+      <div class="flow" role="img" aria-label="Consumer 到 Provider 调用路径">
+        <div class="node">Consumer</div>
+        <span class="arrow">→</span>
+        <div class="node">Proxy</div>
+        <span class="arrow">→</span>
+        <div class="node">Client Channel</div>
+        <span class="arrow">→</span>
+        <div class="node">Server Codec</div>
+        <span class="arrow">→</span>
+        <div class="node">Invoker</div>
+        <span class="arrow">→</span>
+        <div class="node">Provider</div>
+      </div>
+      <div class="defs">
+        <article>
+          <h3>Proxy</h3>
+          <p>接口动态代理，封装 RequestId 与超时。</p>
+        </article>
+        <article>
+          <h3>Codec</h3>
+          <p>编解码与协议版本协商，魔数校验。</p>
+        </article>
+        <article>
+          <h3>Invoker</h3>
+          <p>路由本地实现、捕获异常并写回响应帧。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel code-panel">
+      <h2>协议帧 · 17B Header</h2>
+      <pre><code>┌──────┬─────┬──────┬─────┬──────────┬────────┬──────┐
+│Magic │ Ver │ Type │ Ser │ RequestId│ Length │ Body │
+│ 2B   │ 1B  │ 1B   │ 1B  │ 8B       │ 4B     │ N    │
+└──────┴─────┴──────┴─────┴──────────┴────────┴──────┘
+Magic = 0x5350 ("SP")</code></pre>
+    </section>
+
+    <section class="panel">
+      <h2>快速开始</h2>
+      <pre class="cmd"><code># 服务端
+mvn -q exec:java -Dexec.mainClass=com.sparkrpc.example.ExampleServer
+
+# 客户端
+mvn -q exec:java -Dexec.mainClass=com.sparkrpc.example.ExampleClient</code></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>SparkRPC · 学习向基础设施 · 展示站部署于 Vercel</p>
+  </footer>
+  <script src="./main.js"></script>
+</body>
+</html>
