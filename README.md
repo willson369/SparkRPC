@@ -28,7 +28,8 @@ mvn -q exec:java -Dexec.mainClass=com.sparkrpc.example.ExampleClient
 
 ## Showcase Site
 
-Static tech-geek landing page in `website/` — deploy with Vercel:
+- Live: https://website-sandy-pi-98.vercel.app
+- Source: `website/`
 
 ```bash
 cd website
